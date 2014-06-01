@@ -281,7 +281,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/bash \"${PROJECT_DIR}/Scripts/Version.sh\" -plist \"${PROJECT_DIR}/XcodeBuildScripts/XcodeBuildScripts-Info.plist\" -output \"${PROJECT_DIR}/XcodeBuildScripts/Version.h\" -prefix \"XC_\"";
+			shellScript = "/bin/bash \"${PROJECT_DIR}/Scripts/Version.sh\" \\\n           -plist \"${PROJECT_DIR}/XcodeBuildScripts/XcodeBuildScripts-Info.plist\" \\\n           -output \"${PROJECT_DIR}/XcodeBuildScripts/Version.h\" \\\n           -prefix \"XC_\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -453,7 +453,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/XcodeBuildScripts.app/XcodeBuildScripts";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -467,7 +466,6 @@
 				);
 				INFOPLIST_FILE = "XcodeBuildScriptsTests/XcodeBuildScriptsTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -476,7 +474,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/XcodeBuildScripts.app/XcodeBuildScripts";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -486,7 +483,6 @@
 				GCC_PREFIX_HEADER = "XcodeBuildScripts/XcodeBuildScripts-Prefix.pch";
 				INFOPLIST_FILE = "XcodeBuildScriptsTests/XcodeBuildScriptsTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -542,6 +538,7 @@
 				A66E276518CB73CF00CD237E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,44 +1,50 @@
-.SILENT:
+.SILENT: print-version
+
+VERSION_SCRIPT = "Scripts/Version.sh"
+BUILD_SCRIPT = "Scripts/Build.sh"
+TESTFLIGHT_SCRIPT = "Scripts/Testflight.sh"
+
+WORKSPACE = "XcodeBuildScripts.xcworkspace"
+IOS_SDK = "iphoneos"
+IOS_SIMULATOR_SDK = "iphonesimulator7.1"
+ARTIFACTS_DIR = "artifacts"
+
+TESTFLIGHT_API_TOKEN = "123"
+TESTFLIGHT_TEAM_TOKEN = "321"
+TESTFLIGHT_DISTRIBUTION_LISTS = "Developers"
+TESTFLIGHT_ARTIFACT = "artifacts/testflight.json"
 
 clean:
 	rm -rf artifacts
 
 print-version:
-	/bin/bash Scripts/Version.sh \
-		-workspace "XcodeBuildScripts.xcworkspace" \
+	/bin/bash ${VERSION_SCRIPT} \
+		-workspace ${WORKSPACE} \
 		-scheme "XcodeBuildScripts"
 
 test-debug:
-	/bin/bash Scripts/Build.sh \
-		-workspace "XcodeBuildScripts.xcworkspace" \
+	/bin/bash ${BUILD_SCRIPT} \
+		-workspace ${WORKSPACE} \
 		-scheme "XcodeBuildScripts" \
 		-configuration "Debug" \
-		-sdk "iphonesimulator7.0" \
-		-artifacts "artifacts" \
+		-sdk ${IOS_SIMULATOR_SDK} \
+		-artifacts ${ARTIFACTS_DIR} \
 		-run-tests
 
-build-live:
-	/bin/bash Scripts/Build.sh \
-		-workspace "XcodeBuildScripts.xcworkspace" \
+build-release:
+	/bin/bash ${BUILD_SCRIPT} \
+		-workspace ${WORKSPACE} \
 		-scheme "XcodeBuildScripts" \
 		-configuration "Release" \
-		-sdk "iphoneos7.0" \
-		-artifacts "artifacts" \
+		-sdk ${IOS_SDK} \
+		-artifacts ${ARTIFACTS_DIR} \
 		-identity "iPhone Distribution: That Guy" \
-		-profile "Provisioning/TestApp-Live.mobileprovision"
-
-test-live:
-	/bin/bash Scripts/Build.sh \
-		-workspace "XcodeBuildScripts.xcworkspace" \
-		-scheme "XcodeBuildScripts" \
-		-configuration "Release" \
-		-sdk "iphonesimulator7.0" \
-		-artifacts "artifacts" \
-		-run-tests
+		-profile "Provisioning/TestApp-Release.mobileprovision"
 
 testflight:
-	/bin/bash Scripts/Build/Testflight.sh \
-		-artifacts artifacts \
-		-api-token 'auth-token-here' \
-		-team-token 'team-token-here' \
-		-output-file artifacts/testflight.json
+	/bin/bash ${TESTFLIGHT_SCRIPT} \
+		-artifacts ${ARTIFACTS_DIR} \
+		-api-token ${TESTFLIGHT_API_TOKEN} \
+		-team-token ${TESTFLIGHT_TEAM_TOKEN} \
+		-distribution-lists ${TESTFLIGHT_DISTRIBUTION_LISTS} \
+		-output-file ${TESTFLIGHT_ARTIFACT}

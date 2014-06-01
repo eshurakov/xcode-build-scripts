@@ -61,7 +61,7 @@ build_hash() {
 }
 
 build_number_git() {
-    git rev-list $(git_branch) | wc -l | tr -d ' '
+    git rev-list $(build_hash_git) | wc -l | tr -d ' '
 }
 
 build_number_svn() {
@@ -73,7 +73,7 @@ build_number_other() {
 }
 
 build_hash_git() {
-    git rev-parse --short --verify $(git_branch) | tr -d ' '
+	git log --pretty=format:%h -n1 --abbrev-commit | tr -d ' '
 }
 
 build_hash_svn() {
@@ -82,13 +82,6 @@ build_hash_svn() {
 
 build_hash_other() {
     echo "1"
-}
-
-git_branch() {
-    local branch="$(git symbolic-ref HEAD 2>/dev/null)" ||
-    branch="(unnamed branch)" # detached HEAD
-    branch=${branch##refs/heads/}
-    echo $branch
 }
 
 # --------
@@ -163,7 +156,7 @@ if [ -z "${OUTPUT_FILE}" ]; then
     MARKETING_VERSION=`/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${PLIST_PATH}"`
     if [ "$?" -ne 0 ] ; then fail; fi
 
-    echo "${MARKETING_VERSION}.$(build_number).$(build_hash)"
+    echo "${MARKETING_VERSION}.$(build_number)"
 else
     if [ -z "${PREFIX}" ]; then
         PREFIX=""
